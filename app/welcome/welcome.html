@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome Page</title>
+
+	<style>
+		/*background image CSS*/
+		body {
+			background-image: url("http://www.wallpapersin4k.org/wp-content/uploads/2017/04/Star-Sky-Wallpaper-7.jpg");
+			background-repeat:no-repeat;
+			background-size: cover;
+		}
+		/*text color*/
+		h3, legend{
+			color: white;
+		}
+	</style>
+</head>
+<body ng-controller="WelcomeCtrl">
+
+	<!--Navigation bar-->
+	<div class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<a herf="#" class="navbar-brand"></a>
+
+			<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+			
+			<div class = "collapse navbar-collapse navHeaderCollapse">
+				<ul class="nav navbar-nav">
+					<li  class="active"><a href="#">Home</a></li>
+					<li><a href="#/history">History</a></li>
+					<li ng-click="logout()"><a href="#">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!--Welcome Syntax-->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 style="text-transform: capitalize;">Welcome, {{username}}</h3>
+			</div>
+		</div>
+	</div>
+
+
+	<!--Input From-->
+	<div class="container">
+		<form role="form" name="postForm" ng-submit="geoCodeAndSave()" novalidate="">
+			<legend>Show me the weather in...</legend>
+			<div class="row">
+				<div class="col-md-5 well well-sm">
+						<!--City Input Box-->
+						<label for="cityTxt">City</label>
+						<input type="text" name="cityTxt" class="form-control" placeholder="City" ng-model="address.city" required="">
+						
+						<!--State Input Box-->
+						<label for="stateTxt">State</label>
+						<input type="text" name="stateTxt" class="form-control" placeholder="State" ng-model="address.state" required="">
+						
+						<!--Country Input Box-->
+						<label for="countryTxt">Country</label>
+						<input type="text" name="countryTxt" class="form-control" placeholder="Country" ng-model="address.country" required="">
+						<br>
+						
+						<!--Send Info Button-->
+						<button type="submit" class="btn btn-primary" ng-disabled="postForm.$invalid">Search</button>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

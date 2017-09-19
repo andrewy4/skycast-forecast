@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SkyCast</title>
+	<style>
+
+		/*video grid set up*/
+		.video-background {
+			background: #000;
+			position: fixed;
+			top: 0; right: 0; bottom: 0; left: 0;
+			z-index: -99;
+		}
+
+		/*video set up*/
+		.video-foreground,
+		.video-background iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+
+		/*adjust video based on resolution*/
+		@media (min-aspect-ratio: 16/9) {
+			.video-foreground { height: 300%; top: -100%; }
+		}
+		@media (max-aspect-ratio: 16/9) {
+			.video-foreground { width: 300%; left: -100%; }
+		}
+
+		@media all and (max-width: 500px) {
+			.acronym { display: none; }
+		}
+		/*end adjusting*/
+	</style>
+</head>
+
+<body ng-controller="HomeCtrl">
+	<!--Background video-->
+	<div class="video-background">
+		<div class="video-foreground">
+			<iframe src="https://www.youtube.com/embed/vKKOsoY03V4?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=vKKOsoY03V4" frameborder="0" allowfullscreen></iframe>
+		</div>
+	</div>
+	<!--End background video-->
+
+	<!--Log in container set up-->
+	<div class="container">
+		<br>
+		<!--logo-->
+		<div class="jumbotron col-md-6 col-md-offset-3" style="padding-top: 0; padding-bottom: 0">
+			<h2 style="text-align: center; font-size: 2.3em; ">SkyCast Weather Login</h2>
+		</div>
+
+		<!--Submit log in form-->
+		<form role="form" name="loginForm" novalidate="">
+			
+			<!--email address input-->
+			<div class="form-group col-md-6 col-md-offset-3" ng-class="{'has-error': loginForm.email.$invalid && loginForm.email.$touched}">
+				<label for="email">Email Address</label>
+				<input type="mail" name="email" ng-model="user.email" class="form-control" placeholder="Email Address" required="" />
+				<!--error message-->
+				<small class="help-block" ng-show="loginForm.email.$invalid && loginForm.email.$touched">Please enter an valid Email Address</small>
+			</div>
+
+			<!--password input-->
+			<div class="form-group col-md-6 col-md-offset-3" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$touched}">
+				<label for="password">Password</label>
+				<input type="password" name="password" ng-model="user.password" class="form-control" placeholder="Password" required="" ng-minlength =  8 />
+				<!--error message-->
+				<small class="help-block" ng-show="loginForm.password.$error.minlength && loginForm.password.$touched">Password must be atleast 8 characters</small>
+			</div>
+
+			<!--to Sign up page-->
+			<div class="form-group col-md-6 col-md-offset-3">
+				<label><a href="#/register">First Time Here? Sign Up</a></label>
+			</div>
+
+			<!--submit button-->
+			<div class="form-group col-md-6 col-md-offset-3">
+				<!--Error Message display-->
+				<p ng-show="errMsg" class="text-danger">{{errorMessage}}</p>
+				<button type="submit" class="btn btn-lg btn-primary btn-block" ng-disabled="loginForm.$invalid" ng-click="signIn()">Sign In</button>
+			</div>
+		</form>
+		<!--end form-->
+	</div>
+
+</body>
+</html>

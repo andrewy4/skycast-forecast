@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="webApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="webApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="webApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="webApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SkyCast</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+  <script>
+      //Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDjUJxx1Ktr8pxwZNwkzgheKKODGDw3VAc",
+        authDomain: "skycast-weathercheck.firebaseapp.com",
+        databaseURL: "https://skycast-weathercheck.firebaseio.com",
+        projectId: "skycast-weathercheck",
+        storageBucket: "skycast-weathercheck.appspot.com",
+        messagingSenderId: "987767809758"
+      };
+      firebase.initializeApp(config);
+      //End Initialization
+  </script>
+</head>
+<body>
+
+  <div ng-view></div>
+
+
+
+
+  <!--Bower components-->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script type="text/javascript" src="bower_components/angularfire/dist/angularfire.js"></script>
+  <script src="app.js"></script>
+  <script src="bower_components/angular-skycons/angular-skycons.min.js"></script>
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+  <!--Webpage JS file-->
+  <script type="text/javascript" src="home/home.js"></script>
+  <script type="text/javascript" src="register/register.js"></script>
+  <script type="text/javascript" src="welcome/welcome.js"></script>
+  <script type="text/javascript" src="history/history.js"></script>
+  <script type="text/javascript" src="result/result.js"></script>
+
+
+  
+</body>
+</html>

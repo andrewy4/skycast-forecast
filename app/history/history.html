@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>History</title>
+	<style>
+
+	/*background image CSS*/
+	body {
+			background-image: url("https://images4.alphacoders.com/679/679373.jpg");
+			background-repeat:no-repeat;
+			background-size: cover;
+		}
+	</style>
+</head>
+<body ng-controller=HistoryCtrl>
+	<!--Navigation bar-->
+	<div class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<a herf="#/welcome" class="navbar-brand"></a>
+
+			<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+			
+			<div class = "collapse navbar-collapse navHeaderCollapse">
+				<ul class="nav navbar-nav">
+					<li ><a href="#/welcome">Home</a></li>
+					<li class="active"><a href="#/history">History</a></li>
+					<li ng-click="logout()"><a href="#">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--End navigation bar-->
+
+	<!--Container for the history-->
+	<div class="container">
+		<!--Title-->
+		<div class="row">
+			<h3 class="well well-sm">Search History:</h3>
+		</div>
+
+		<!--repeatly print out the search history data-->
+		<div class="row" ng-repeat="location in locations | reverse">
+			<div class="col-md-12 well well-sm">
+				<div class="float-left" style="display: inline">
+					<p style="display: inline; text-transform: capitalize">{{location.city}}, {{location.state}}, {{location.country}} </p>
+					<br>
+				<!--one submit button for every data-->
+					<div style="display: inline; margin-top: -10px" class="pull-right" >
+						<button class="btn btn-sm btn-primary" ng-click="checkWeather(location.$id)">Check Weather</button>
+					</div>
+				<p> Search Date: {{location.date}}</p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather Result</title>
+	<style>
+		/*background image*/
+		body{
+			background-image: url("{{backgroundPicture}}");
+			background-repeat:no-repeat;
+			background-size: cover;
+		}
+
+		/*adjust moving grid for smaller device*/
+		@media only screen and (max-width: 1026px){
+			#movingGrid button{
+				display: none;
+			}
+			#anchor1{
+				display:none;
+			}
+		}
+		#main{
+			margin: 0 auto;
+		}
+		#movingGrid p{
+			font-weight: bold;
+			text-align: center;
+			color: white;
+			margin-top: 1em;
+		}
+		#movingGrid button{
+			margin-bottom: 1em;
+		}
+		#currentReport p{
+			font-size: 1.3em;
+			color: white;
+		}
+		#detailInfo p{
+			font-size: 1.3em;
+			text-align: center;
+		}
+		#imoveingGrid {
+			margin: 0, auto;
+		}
+		.bold{
+			font-weight: bold;
+		}
+		.whiteSyntax{
+			text-align: center;
+			color: white;
+		}
+		.center{
+			margin: auto;
+			width: 50%;
+		}
+		.row-eq-height{
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+		}
+		.summary{ 
+			text-transform: capitalize;
+			font-size: 1.3em;
+		}
+		.reportStyle{
+			background-color: {{backgroundColor}}; 
+			margin-top: 10px;
+		}
+
+		/*chart's data*/
+		tbody:nth-child(odd){
+			background: #f5f5f5;
+		}
+		tbody:nth-child(even){
+			background: #e5e5e5;
+		}
+
+
+	</style>
+</head>
+<body ng-controller="ResultCtrl">
+
+	<!-- Navigation Bar-->
+	<div class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<a herf="#/welcome" class="navbar-brand"></a>
+			<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+			
+			<div class = "collapse navbar-collapse navHeaderCollapse">
+				<ul class="nav navbar-nav">
+					<li ><a href="#/welcome">Home</a></li>
+					<li ><a href="#/history">History</a></li>
+					<li ng-click="logout()"><a href="#">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!--Main-->
+	<div id= "main" class ="container">
+
+		<!--First Row-->
+		<div class ="row row-eq-height" style="margin-left: 1em">
+
+			<!--Top left weather grid-->
+			<div id="currentReport" class="col-md-4 reportStyle">
+				<h3 class="text-center" style="text-transform: uppercase; color: white">{{addressDis}}</h3>
+				<p class="text-center" style=" margin-top: -10px">{{current.time * 1000 | date: 'MM/dd EEE h:mm a'}}</p>
+				<div class="pull-right">
+					<skycon icon= "weatherIcon.forecast.currentIcon" color="weatherIcon.forecast.color" ></skycon>
+				</div>
+				<p class= "bold" style="font-size: 2em">{{current.temperature}} &#8457</p>
+				<p class="bold" style="margin-top: -1.25em">{{current.summary}}</p>
+				<p>H {{daily[0].apparentTemperatureHigh}}&#8457 L {{daily[0].apparentTemperatureLow}}&#8457</p>
+				<p>feels like {{current.apparentTemperature}} &#8457</p>
+				<p>UV Index {{current.uvIndex}} of 10</p>
+			</div>
+			<br>
+
+			<!--Top middle info grid-->
+			<div id="detailInfo" class="col-md-3" style="margin-top: 10px; background-color: white">
+				<h3 class="text-center">RIGHT NOW</h3>
+				<p>Humidity</p>
+				<p>{{(current.humidity * 100 | number:2)*1}}%</p>
+				<legend></legend>
+				<p>Dew Point</p>
+				<p>{{current.dewPoint}}&#176<p>
+				<legend></legend>
+				<p>Visibility</p>
+				<p>{{current.visibility}} mi</p>	
+			</div>
+
+			<!--Top right this week's summary-->
+			<div id="currentReport" class="col-md-5 reportStyle">
+				<H3 style="text-transform: uppercase; color: white">This Week's Forcast:</H3>
+				<p class="summary">{{thisWeekForcast}}</p>
+			</div>
+		</div>
+		<br>
+		<!--End first Row-->
+
+
+		<!--Second Row-->
+		<div class="container">
+			<!--Middle Section Interactive Grid-->
+			<h3 class="well well-sm">NEXT 5 DAYS</h3>
+			<div class=" row whiteSyntax shiftDown" id="movingGrid">
+
+				<!--grid 1 data-->
+				<div class="{{grid1}}" style="background-color: #004d99">
+					<p>{{daily[0].time * 1000 | date: 'MM/dd'}}</p>
+					<p style="font-size: 1.2em">{{daily[0].time * 1000 | date: 'EEEE'}} Today</p>
+					<skycon icon= "weatherIcon.forecast.day0Icon" color="weatherIcon.forecast.color" ></skycon>
+					<p style="font-size: 1.68em">{{daily[0].apparentTemperatureHigh}}&#8457</p>
+					<p>Precipitation: {{(daily[0].precipProbability * 100 | number:2)*1}}%</p>
+					<button id = "grid1" type="button" class="btn btn-primary" ng-click="changeGrid()">Detail</button>
+				</div>
+
+				<!--grid 2 data-->
+				<div class="{{grid2}}"  style="background-color: #0066cc">
+					<p>{{daily[1].time * 1000 | date: 'MM/dd'}}</p>
+					<p style="font-size: 1.2em">{{daily[1].time * 1000 | date: 'EEEE'}}</p>
+					<skycon icon= "weatherIcon.forecast.day1Icon" color="weatherIcon.forecast.color" ></skycon>
+					<p style="font-size: 1.68em">{{daily[1].apparentTemperatureHigh}}&#8457</p>
+					<p >Precipitation: {{(daily[1].precipProbability * 100 | number:2)*1}}%</p>
+					<button id = "grid2" type="button" class="btn btn-primary" ng-click="changeGrid()">Detail</button>
+				</div>
+
+				<!--grid 3 data-->
+				<div class="{{grid3}}" style="background-color: #0080ff">
+					<p>{{daily[2].time * 1000 | date: 'MM/dd'}}</p>
+					<p style="font-size: 1.2em">{{daily[2].time * 1000 | date: 'EEEE'}}</p>
+					<skycon icon= "weatherIcon.forecast.day2Icon" color="weatherIcon.forecast.color" ></skycon>
+					<p style="font-size: 1.68em">{{daily[2].apparentTemperatureHigh}}&#8457</p>
+					<p>Precipitation: {{(daily[2].precipProbability * 100 | number:2)*1}}%</p>
+					<button id = "grid3" type="button" class="btn btn-primary" ng-click="changeGrid()">Detail</button>
+				</div>
+
+				<!--grid 4 data-->
+				<div class="{{grid4}}" style="background-color: #3399ff">
+					<p>{{daily[3].time * 1000 | date: 'MM/dd'}}</p>
+					<p style="font-size: 1.2em">{{daily[3].time * 1000 | date: 'EEEE'}}</p>
+					<skycon icon= "weatherIcon.forecast.day3Icon" color="weatherIcon.forecast.color" ></skycon>
+					<p style="font-size: 1.68em">{{daily[3].apparentTemperatureHigh}}&#8457</p>
+					<p>Precipitation: {{(daily[3].precipProbability * 100 | number:2)*1}}%</p>
+					<button id = "grid4" type="button" class="btn btn-primary" ng-click="changeGrid()">Detail</button>
+				</div>
+
+				<!--grid 5 data-->
+				<div class="{{grid5}}"  style="background-color: #66b3ff">
+					<p>{{daily[4].time * 1000 | date: 'MM/dd'}}</p>
+					<p style="font-size: 1.2em">{{daily[4].time * 1000 | date: 'EEEE'}}</p>
+					<skycon icon= "weatherIcon.forecast.day4Icon" color="weatherIcon.forecast.color" ></skycon>
+					<p style="font-size: 1.68em">{{daily[4].apparentTemperatureHigh}}&#8457</p>
+					<p>Precipitation: {{(daily[4].precipProbability * 100 | number:2)*1}}%</p>
+					<button id = "grid5" type="button" class="btn btn-primary" ng-click="changeGrid()">Detail</button>
+				</div>
+			</div>
+			<!--End middle section interactive grid-->
+
+			<!--Interactive summary row-->
+			<div class="row">
+				<div id="anchor1" class="well well-sm col-md-12 anchor">
+					<h3>Weather Summary</h3>
+					<p class="summary">{{type}}, Low {{temperature}} &#8457. {{summary}}</p>
+				</div>
+			</div>
+			<!--End interactive summary row-->
+
+			<!--Hourly info Table-->
+			<div>
+				<h3 class="well well-sm" style="text-transform: uppercase">{{addressDis}} - Hourly Weather</h3>
+				<table class="table">
+					<thread>
+						<!--Header-->
+						<tr class="active">
+							<th>TIME</th>
+							<th>DESCRIPTION</th>
+							<th>TEMPERATURE</th>
+							<th style="text-transform: uppercase">CHANCE TO {{hourly[0].precipType}}</th>
+							<th>HUMIDITY</th>
+						</tr>
+					</thread>
+
+					<!--Body-->
+					<tbody ng-repeat="hour in hourly">
+						<tr>
+							<td>{{hour.time * 1000 | date: 'hh:mm a EEE'}}</td>
+							<td>{{hour.summary}}</td>
+							<td>{{hour.apparentTemperature}}&#8457</td>
+							<td>{{(hour.precipProbability * 100 | number:2)*1}}%</td>
+							<td>{{(hour.humidity * 100 | number:2)*1}}%</td>
+						</tr>
+					</tbody>	
+				</table>
+			</div>
+			<!--End hourly info Table-->
+		</div>
+		<!--end the second row-->
+	</div>
+	<!--Close container-->
+</body>
+</html>
